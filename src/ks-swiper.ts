@@ -1,6 +1,6 @@
 declare var require;
 
-import {Injectable, Inject, Component, ElementRef, Host, Input} from '@angular/core';
+import {Injectable, Inject, Component, ElementRef, EventEmitter, Host, Input, Output} from '@angular/core';
 
 // import Swiper from 'swiper';
 const Swiper = require('swiper');
@@ -34,6 +34,8 @@ export class KSSwiperContainer {
 
   @Input() options: any;
 
+  @Output() swiperInitialized: EventEmitter<Swiper> = new EventEmitter<Swiper>();
+
   // the underlying swiper instance
   // TODO: do not have typedefinitions yet
   // so using any
@@ -53,6 +55,7 @@ export class KSSwiperContainer {
     const nativeElement = this.elementRef.nativeElement;
     setTimeout(() => {
       this.swiper = new Swiper(nativeElement.children[0], this.options);
+      this.swiperInitialized.emit(swiper);
     });
   }
 
